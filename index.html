@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Tracker PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="theme-color" content="#2ecc71">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calorie Tracker</h1>
+            <div class="total-card">
+                <span>Total Calories</span>
+                <div id="totalCalories">0</div>
+            </div>
+        </header>
+        
+        <div class="input-card">
+            <div class="input-group">
+                <input type="text" id="foodInput" placeholder="Food item" required>
+                <input type="number" id="calorieInput" placeholder="Calories" min="0" required>
+                <button onclick="addEntry()" class="add-btn">Add Entry</button>
+            </div>
+        </div>
+
+        <div class="entries-card">
+            <h2>Entries</h2>
+            <ul id="entryList"></ul>
+        </div>
+    </div>
+    <script src="app.js"></script>
+    <script src="service-worker.js"></script>
+</body>
+</html>
