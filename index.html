@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calorie Tracker</title>
+    <title>Calorie Tracker PWA</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="icon-192.png" type="image/png">
@@ -33,7 +33,44 @@
             <ul id="entryList"></ul>
         </div>
     </div>
+
+    <!-- Install Button and Message -->
+    <div class="install-section" style="text-align: center; margin-top: 20px;">
+        <button id="installBtn" class="install-btn" style="display: none; padding: 10px 20px; background: #2ecc71; color: white; border: none; border-radius: 5px; cursor: pointer;">Install Now</button>
+        <p id="installMessage" class="install-message" style="margin-top: 10px; color: #34495e;">Click the button to install the app.</p>
+    </div>
+
     <script src="app.js"></script>
     <script src="service-worker.js"></script>
+
+    <script>
+        let deferredPrompt;
+
+        // Capture the beforeinstallprompt event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); // Prevent the default browser prompt
+            deferredPrompt = e; // Store the event for later use
+            document.getElementById('installBtn').style.display = 'inline-block'; // Show the install button
+        });
+
+        // Handle the install button click
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt(); // Show the install prompt
+                const { outcome } = await deferredPrompt.userChoice; // Wait for user response
+                if (outcome === 'accepted') {
+                    document.getElementById('installMessage').textContent = 'App installed successfully!';
+                } else {
+                    document.getElementById('installMessage').textContent = 'Installation cancelled.';
+                }
+                deferredPrompt = null; // Clear the deferred prompt
+            }
+        });
+
+        // Handle appinstalled event
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('installMessage').textContent = 'App has been installed!';
+        });
+    </script>
 </body>
 </html>
